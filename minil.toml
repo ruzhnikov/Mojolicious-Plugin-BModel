@@ -1,0 +1,6 @@
+name = "Mojolicious-Plugin-Model"
+# badges = ["travis"]
+authority="cpan:BCDE"
+
+module_maker="ModuleBuildTiny"
+
