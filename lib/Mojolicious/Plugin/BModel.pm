@@ -1,4 +1,4 @@
-package Mojolicious::Plugin::Model;
+package Mojolicious::Plugin::BModel;
 
 use 5.010;
 use strict;
@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = "0.01_dev";
+our $VERSION = 0.02;
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $BASE_MODEL = 'Base';  # default name for Base model
@@ -133,7 +133,7 @@ __END__
 
 =head1 NAME
 
-Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
+Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
 =head1 SYNOPSIS
 
@@ -142,7 +142,7 @@ Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
     sub startup {
         my $self = shift;
 
-        $self->plugin( 'Model',
+        $self->plugin( 'BModel',
             {
                 use_base_model => 1,
                 create_dir     => 1,
@@ -153,7 +153,7 @@ Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
 
 =head1 DESCRIPTION
 
-Mojolicious::Plugin::Model adds the ability to work with models in Catalyst
+Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
 =head1 LICENSE
 

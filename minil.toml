@@ -1,7 +1,7 @@
-name = "Mojolicious-Plugin-Model"
+name = "Mojolicious-Plugin-BModel"
 badges = ["travis"]
 authority="cpan:BCDE"
-readme_from="lib/Mojolicious/Plugin/Model.pm"
+readme_from="lib/Mojolicious/Plugin/BModel.pm"
 abstract="Catalyst-like models in Mojolicious"
 license="perl_5"
 
