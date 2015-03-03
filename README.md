@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-Model.svg?branch=master)](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-Model)
+[![Build Status](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-BModel.svg?branch=master)](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-BModel)
 # NAME
 
-Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
+Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
 # SYNOPSIS
 
@@ -10,7 +10,7 @@ Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
     sub startup {
         my $self = shift;
 
-        $self->plugin( 'Model',
+        $self->plugin( 'BModel',
             {
                 use_base_model => 1,
                 create_dir     => 1,
@@ -21,7 +21,7 @@ Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
 
 # DESCRIPTION
 
-Mojolicious::Plugin::Model adds the ability to work with models in Catalyst
+Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
 # LICENSE
 

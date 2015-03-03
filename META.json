@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Mojolicious-Plugin-Model",
+   "name" : "Mojolicious-Plugin-BModel",
    "no_index" : {
       "directory" : [
          "t",
@@ -58,15 +58,15 @@
    "release_status" : "unstable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-Model/issues"
+         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel/issues"
       },
-      "homepage" : "https://github.com/ruzhnikov/Mojolicious-Plugin-Model",
+      "homepage" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/ruzhnikov/Mojolicious-Plugin-Model.git",
-         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-Model"
+         "url" : "git://github.com/ruzhnikov/Mojolicious-Plugin-BModel.git",
+         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_authority" : "cpan:BCDE"
 }
