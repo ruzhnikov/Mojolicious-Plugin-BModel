@@ -1,6 +1,10 @@
-Revision history for Perl extension Mojolicious-Plugin-Model
+Revision history for Perl extension Mojolicious-Plugin-BModel
 
 {{$NEXT}}
+
+0.012 2015-03-03T18:50:32Z
+
+    - small fix in Changes
 
 0.011 2015-03-03T18:48:38Z
 

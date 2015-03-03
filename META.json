@@ -67,6 +67,6 @@
          "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
       }
    },
-   "version" : "0.011",
+   "version" : "0.012",
    "x_authority" : "cpan:BCDE"
 }
