@@ -1,6 +1,9 @@
 name = "Mojolicious-Plugin-Model"
 badges = ["travis"]
 authority="cpan:BCDE"
+readme_from="lib/Mojolicious/Plugin/Model.pm"
+abstract="Catalyst-like models in Mojolicious"
+license="perl_5"
 
 module_maker="ModuleBuildTiny"
 

@@ -13,6 +13,7 @@ our $VERSION = "0.01_dev";
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $BASE_MODEL = 'Base';  # default name for Base model
+my $CREATE_DIR = 1;
 my $USE_BASE_MODEL = 1;
 my %MODULES = ();
 
@@ -22,15 +23,20 @@ sub register {
     my $app_name      = ref $app;
     my $path_to_model = $app->home->lib_dir . '/' . $app_name . '/' . $MODEL_DIR;
     my $dir_exists    = $self->check_model_dir( $path_to_model );
+    my $create_dir    = $conf->{create_dir} || $CREATE_DIR;
 
-    $USE_BASE_MODEL = 0 if ( $conf->{use_base_model} && $conf->{use_base_model} == 0 );
-    $BASE_MODEL = $conf->{base_model} if ( $USE_BASE_MODEL && $conf->{base_model} );
+    if ( exists $conf->{use_base_model} && $conf->{use_base_model} == 0 ) {
+        $USE_BASE_MODEL = 0;
+    }
+    if ( $USE_BASE_MODEL && $conf->{base_model} ) {
+        $BASE_MODEL = $conf->{base_model};
+    }
 
-    if ( ! $dir_exists && ! $conf->{create_dir} ) {
+    if ( ! $dir_exists && ! $create_dir ) {
         warn "Directory $app_name/$MODEL_DIR does not exist";
         return 1;
     }
-    elsif ( ! $dir_exists && $conf->{create_dir} ) {
+    elsif ( ! $dir_exists && $create_dir ) {
         mkdir $path_to_model or croak "Could not create directory $path_to_model : $!";
     }
 
@@ -127,15 +133,27 @@ __END__
 
 =head1 NAME
 
-Mojolicious::Plugin::Model - It's new $module
+Mojolicious::Plugin::Model - Catalyst-like models in Mojolicious
 
 =head1 SYNOPSIS
 
-    use Mojolicious::Plugin::Model;
+    # Mojolicious
+
+    sub startup {
+        my $self = shift;
+
+        $self->plugin( 'Model',
+            {
+                use_base_model => 1,
+                create_dir     => 1,
+                base_model     => 'Base',
+            }
+        );
+    }
 
 =head1 DESCRIPTION
 
-Mojolicious::Plugin::Model is ...
+Mojolicious::Plugin::Model adds the ability to work with models in Catalyst
 
 =head1 LICENSE
 

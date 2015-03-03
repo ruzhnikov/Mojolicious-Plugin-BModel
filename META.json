@@ -1,5 +1,5 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "Catalyst-like models in Mojolicious",
    "author" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"
    ],
@@ -42,7 +42,11 @@
       },
       "runtime" : {
          "requires" : {
-            "perl" : "5.008001"
+            "Carp" : "0",
+            "File::Find" : "0",
+            "Mojo::Loader" : "0",
+            "Mojolicious" : "5.0",
+            "perl" : "5.010"
          }
       },
       "test" : {
@@ -52,6 +56,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-Model/issues"
+      },
+      "homepage" : "https://github.com/ruzhnikov/Mojolicious-Plugin-Model",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/ruzhnikov/Mojolicious-Plugin-Model.git",
+         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-Model"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:BCDE"
 }
