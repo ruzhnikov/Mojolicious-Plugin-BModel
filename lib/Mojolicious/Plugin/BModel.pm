@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = 0.012;
+our $VERSION = 0.021;
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $BASE_MODEL = 'Base';  # default name for Base model
@@ -139,6 +139,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     # Mojolicious
 
+    # in your app:
     sub startup {
         my $self = shift;
 
@@ -149,6 +150,21 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
                 base_model     => 'Base',
             }
         );
+    }
+
+    # in controller:
+    sub my_controller {
+        my $self = shift;
+
+        my $config_data = $self->model('MyModel')->get_conf_data('field');
+    }
+
+    # in <your_app>/lib/Model/MyModel.pm:
+    sub get_conf_data {
+        my ( $self, $field ) = @_;
+        
+        # as example
+        return $self->app->config->{field};
     }
 
 =head1 DESCRIPTION
