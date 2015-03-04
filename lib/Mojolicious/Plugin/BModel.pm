@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = 0.021;
+our $VERSION = '0.021_001';
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $BASE_MODEL = 'Base';  # default name for Base model
@@ -20,7 +20,7 @@ my %MODULES = ();
 sub register {
     my ( $self, $app, $conf ) = @_;
 
-    my $app_name      = ref $app;
+    my $app_name      = ref $app; # name of calling app
     my $path_to_model = $app->home->lib_dir . '/' . $app_name . '/' . $MODEL_DIR;
     my $dir_exists    = $self->check_model_dir( $path_to_model );
     my $create_dir    = $conf->{create_dir} || $CREATE_DIR;
@@ -62,6 +62,7 @@ sub check_model_dir {
     return;
 }
 
+# recursive search and download modules with models
 sub load_models {
     my ( $self, $path_to_model, $app_name, $app ) = @_;
 
@@ -171,9 +172,32 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
 Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
+=head2 Options
+
+=over
+
+=item B<use_base_model>
+
+    A flag that specifies the use of the basic model.
+    0 - do not use, 1 - use. Enabled by default
+
+=item B<create_dir>
+
+    A flag that determines automatically create the folder '<yourapp>/lib/Model'
+    if it does not exist. 0 - do not create, 1 - create. Enabled by default
+
+=item B<base_model>
+
+    Name of basic model. By default is 'Base' (<yourapp>/lib/Model/Base.pm).
+    This file is automatically created if it does not exist.
+
+=back
+
+=cut
+
 =head1 LICENSE
 
-Copyright (C) Alexander Ruzhnikov.
+Copyright (C) 2015 Alexander Ruzhnikov.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
