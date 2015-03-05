@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.021_002';
+our $VERSION = '0.021_003';
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $CREATE_DIR = 1;
@@ -36,7 +36,6 @@ sub register {
         mkdir $path_to_model or croak "Could not create directory $path_to_model : $!";
     }
 
-    $self->generate_base_model( $path_to_model, $app_name ) if $USE_BASE_MODEL;
     $self->load_models( $path_to_model, $app_name, $app );
 
     $app->helper(
@@ -172,9 +171,9 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     % cpan install Mojolicious::Plugin::BModel
     % mojo generate app MyApp
     % cd my_app/
-    % vim MyApp.pm
+    % vim lib/MyApp.pm
 
-    # edit MyApp.pm:
+    # edit file:
     package MyApp;
 
     use Mojo::Base 'Mojolicious';
@@ -199,8 +198,6 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     1;
 
     # end of edit file
-
-    % morbo -v script/my_app
 
     # When you connect, the plugin will check if the folder "lib/Model".
     # If the folder does not exist, create it.
@@ -231,6 +228,8 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     1;
     
     # end of edit file
+
+    % morbo -v script/my_app
 
     # Open in your browser address http://127.0.0.1:3000 and
     # you'll see text 'Value: MyTestValue'

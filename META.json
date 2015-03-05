@@ -67,7 +67,7 @@
          "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
       }
    },
-   "version" : "0.021_002",
+   "version" : "0.021_003",
    "x_authority" : "cpan:BCDE",
    "x_contributors" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"
