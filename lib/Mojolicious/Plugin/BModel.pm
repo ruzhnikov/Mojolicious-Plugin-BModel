@@ -9,10 +9,10 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.021_001';
+our $VERSION = '0.021_002';
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
-my $BASE_MODEL = 'Base';  # default name for Base model
+my $BASE_MODEL = 'Base';  # name of basic model
 my $CREATE_DIR = 1;
 my $USE_BASE_MODEL = 1;
 my %MODULES = ();
@@ -27,9 +27,6 @@ sub register {
 
     if ( exists $conf->{use_base_model} && $conf->{use_base_model} == 0 ) {
         $USE_BASE_MODEL = 0;
-    }
-    if ( $USE_BASE_MODEL && $conf->{base_model} ) {
-        $BASE_MODEL = $conf->{base_model};
     }
 
     if ( ! $dir_exists && ! $create_dir ) {
@@ -80,10 +77,8 @@ sub load_models {
         ( $path_to_model )
     );
 
-    my $base_model = '';
-
     if ( $USE_BASE_MODEL ) {
-        $base_model  = $model_path . '::' . $BASE_MODEL;
+        my $base_model = 'Mojolicious::Model::Base';
         my $base_load_err = Mojo::Loader->load( $base_model );
         croak "Loading base model $base_model failed: $base_load_err" if ref $base_load_err;
         {
@@ -95,33 +90,13 @@ sub load_models {
 
     for my $dir ( @model_dirs ) {
         my $model_packages = Mojo::Loader->search( $dir );
-        for my $pm ( grep { $_ ne $base_model } @{ $model_packages } ) {
+        for my $pm ( @{ $model_packages } ) {
             my $load_err = Mojo::Loader->load( $pm );
             croak "Loading '$pm' failed: $load_err" if ref $load_err;
             my ( $basename ) = $pm =~ /$model_path\::(.*)/;
             $MODULES{ $basename } = $USE_BASE_MODEL ? $pm->new : $pm->new( app => $app );
         }
     }
-
-    return 1;
-}
-
-sub generate_base_model {
-    my ( $self, $path_to_model, $app_name ) = @_;
-
-    my $base_model = $path_to_model . '/' . $BASE_MODEL . '.pm';
-    return if -e $base_model;
-
-    system( "touch $base_model" );
-
-    my $base_model_name  = $app_name . '::' . $MODEL_DIR . '::' . $BASE_MODEL;
-    my $module_data = "package $base_model_name;\n\nuse strict;\nuse warnings;\n\n";
-    $module_data .= "use Mojo::Base -base;\n\n";
-    $module_data .= "has config => sub { my \$self = shift; return \$self->app->config };\n\n1;\n";
-
-    open( BASE_MODEL, '>', $base_model ) or croak "Can't open $base_model: $!";
-    print BASE_MODEL $module_data;
-    close( BASE_MODEL );
 
     return 1;
 }
@@ -148,7 +123,6 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
             {
                 use_base_model => 1,
                 create_dir     => 1,
-                base_model     => 'Base',
             }
         );
     }
@@ -161,11 +135,14 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     }
 
     # in <your_app>/lib/Model/MyModel.pm:
+
+    use Mojo::Base 'Mojolicious::Model::Base';
+
     sub get_conf_data {
         my ( $self, $field ) = @_;
         
         # as example
-        return $self->app->config->{field};
+        return $self->config->{field};
     }
 
 =head1 DESCRIPTION
@@ -186,14 +163,78 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     A flag that determines automatically create the folder '<yourapp>/lib/Model'
     if it does not exist. 0 - do not create, 1 - create. Enabled by default
 
-=item B<base_model>
-
-    Name of basic model. By default is 'Base' (<yourapp>/lib/Model/Base.pm).
-    This file is automatically created if it does not exist.
-
 =back
 
 =cut
+
+=head1 EXAMPLE
+
+    # the example of a new application:
+    bash~$ cpan install Mojolicious::Plugin::BModel
+    bash~$ mojo generate app MyApp
+    bash~$ cd my_app/
+    bash~$ vim MyApp.pm
+
+    # edit MyApp.pm:
+    package MyApp;
+
+    use Mojo::Base 'Mojolicious';
+
+    sub startup {
+        my $self = shift;
+
+        $self->config->{testkey} = 'MyTestValue';
+
+        $self->plugin( 'BModel' ); # used the default options
+
+        my $r = $self->routes;
+        $r->get('/')->to( sub {
+                my $self = shift;
+
+                my $testkey_val = $self->Model('MyModel')->get_conf_key('testkey');
+                $self->render( text => 'Value: ' . $testkey_val );
+            }
+        );
+    }
+
+    1;
+
+    # end of edit file
+
+    bash~$ morbo -v script/my_app
+
+    # When you connect, the plugin will check if the folder "lib/Model". If the folder does not exist,
+    # create it.
+    # If the 'use_base_model' is set to true will be loaded module "Mojolicious::Model::Base"
+    # with the base model.
+    # Method 'app' base model will contain a link to your application.
+    # Method 'config' base model will contain a link to config of yor application.
+
+    # create a new model
+    bash~$ touch lib/MyApp/Model/MyModel.pm
+    bash~$ vim lib/MyApp/Model/MyModel.pm
+
+    # edit file
+
+    package MyApp::Model::MyModel;
+
+    use strict;
+    use warnings;
+
+    use Mojo::Base 'Mojolicious::Model::Base';
+
+    sub get_key {
+        my ( $self, $key ) = @_;
+
+        return $self->config->{ $key } || '';
+    }
+
+    1;
+    
+    # end of edit file
+
+    # Open in your browser address http://127.0.0.1:3000 and you'll see text 'Value: MyTestValue'
+
 
 =head1 LICENSE
 
