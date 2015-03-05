@@ -1,4 +1,4 @@
-package Mojolicious::Model::Base;
+package Mojolicious::BModel::Base;
 
 use Mojo::Base -base;
 

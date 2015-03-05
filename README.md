@@ -28,7 +28,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     # in <your_app>/lib/Model/MyModel.pm:
 
-    use Mojo::Base 'Mojolicious::Model::Base';
+    use Mojo::Base 'Mojolicious::BModel::Base';
 
     sub get_conf_data {
         my ( $self, $field ) = @_;
@@ -56,10 +56,10 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 # EXAMPLE
 
     # the example of a new application:
-    bash~$ cpan install Mojolicious::Plugin::BModel
-    bash~$ mojo generate app MyApp
-    bash~$ cd my_app/
-    bash~$ vim MyApp.pm
+    % cpan install Mojolicious::Plugin::BModel
+    % mojo generate app MyApp
+    % cd my_app/
+    % vim MyApp.pm
 
     # edit MyApp.pm:
     package MyApp;
@@ -87,18 +87,18 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
     # end of edit file
 
-    bash~$ morbo -v script/my_app
+    % morbo -v script/my_app
 
-    # When you connect, the plugin will check if the folder "lib/Model". If the folder does not exist,
-    # create it.
-    # If the 'use_base_model' is set to true will be loaded module "Mojolicious::Model::Base"
-    # with the base model.
+    # When you connect, the plugin will check if the folder "lib/Model".
+    # If the folder does not exist, create it.
+    # If the 'use_base_model' is set to true will be loaded
+    # module "Mojolicious::BModel::Base" with the base model.
     # Method 'app' base model will contain a link to your application.
     # Method 'config' base model will contain a link to config of yor application.
 
     # create a new model
-    bash~$ touch lib/MyApp/Model/MyModel.pm
-    bash~$ vim lib/MyApp/Model/MyModel.pm
+    % touch lib/MyApp/Model/MyModel.pm
+    % vim lib/MyApp/Model/MyModel.pm
 
     # edit file
 
@@ -107,7 +107,7 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     use strict;
     use warnings;
 
-    use Mojo::Base 'Mojolicious::Model::Base';
+    use Mojo::Base 'Mojolicious::BModel::Base';
 
     sub get_key {
         my ( $self, $key ) = @_;
@@ -119,7 +119,8 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     
     # end of edit file
 
-    # Open in your browser address http://127.0.0.1:3000 and you'll see text 'Value: MyTestValue'
+    # Open in your browser address http://127.0.0.1:3000 and
+    # you'll see text 'Value: MyTestValue'
 
 # LICENSE
 
