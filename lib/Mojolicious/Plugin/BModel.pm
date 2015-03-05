@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.021_003';
+our $VERSION = '0.03';
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $CREATE_DIR = 1;
@@ -186,13 +186,29 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
         $self->plugin( 'BModel' ); # used the default options
 
         my $r = $self->routes;
-        $r->get('/')->to( sub {
-                my $self = shift;
+        $r->get('/')->to( 'root#index' );
+    }
 
-                my $testkey_val = $self->Model('MyModel')->get_conf_key('testkey');
-                $self->render( text => 'Value: ' . $testkey_val );
-            }
-        );
+    1;
+
+    # end of edit file
+
+    # create a new controller
+
+    % touch lib/Controller/Root.pm
+    % vim lib/Controller/Root.pm
+
+    # edit file
+
+    package MyApp::Controller::Root;
+
+    use Mojo::Base 'Mojolicious::Controller';
+
+    sub index {
+        my $self = shift;
+
+        my $testkey_val = $self->model('MyModel')->get_conf_key('testkey');
+        $self->render( text => 'Value: ' . $testkey_val );
     }
 
     1;
@@ -219,7 +235,7 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
     use Mojo::Base 'Mojolicious::BModel::Base';
 
-    sub get_key {
+    sub get_conf_key {
         my ( $self, $key ) = @_;
 
         return $self->config->{ $key } || '';
