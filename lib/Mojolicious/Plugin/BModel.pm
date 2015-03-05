@@ -12,7 +12,6 @@ use Mojo::Base 'Mojolicious::Plugin';
 our $VERSION = '0.021_002';
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
-my $BASE_MODEL = 'Base';  # name of basic model
 my $CREATE_DIR = 1;
 my $USE_BASE_MODEL = 1;
 my %MODULES = ();
