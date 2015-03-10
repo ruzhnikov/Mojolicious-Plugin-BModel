@@ -45,7 +45,7 @@
             "Carp" : "0",
             "File::Find" : "0",
             "Mojo::Loader" : "0",
-            "Mojolicious" : "5.0",
+            "Mojolicious" : "6.0",
             "perl" : "5.010"
          }
       },
@@ -67,7 +67,7 @@
          "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_authority" : "cpan:BCDE",
    "x_contributors" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"

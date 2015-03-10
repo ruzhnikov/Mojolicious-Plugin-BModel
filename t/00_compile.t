@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More 0.98;
+use Test::More 0.98 tests => 1;
 
 use_ok( 'Mojolicious::Plugin::BModel' );
 

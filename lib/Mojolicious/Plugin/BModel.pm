@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $CREATE_DIR = 1;
@@ -77,7 +77,7 @@ sub load_models {
 
     if ( $USE_BASE_MODEL ) {
         my $base_model = 'Mojolicious::BModel::Base';
-        my $base_load_err = Mojo::Loader->load( $base_model );
+        my $base_load_err = Mojo::Loader::load_class( $base_model );
         croak "Loading base model $base_model failed: $base_load_err" if ref $base_load_err;
         {
             no strict 'refs';
@@ -87,9 +87,9 @@ sub load_models {
     }
 
     for my $dir ( @model_dirs ) {
-        my $model_packages = Mojo::Loader->search( $dir );
-        for my $pm ( @{ $model_packages } ) {
-            my $load_err = Mojo::Loader->load( $pm );
+        my @model_packages = Mojo::Loader::find_modules( $dir );
+        for my $pm ( @model_packages ) {
+            my $load_err = Mojo::Loader::load_class( $pm );
             croak "Loading '$pm' failed: $load_err" if ref $load_err;
             my ( $basename ) = $pm =~ /$model_path\::(.*)/;
             $MODULES{ $basename } = $USE_BASE_MODEL ? $pm->new : $pm->new( app => $app );

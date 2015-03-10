@@ -1,5 +1,5 @@
 requires 'perl', '5.010';
-requires 'Mojolicious', '5.0';
+requires 'Mojolicious', '6.0';
 requires 'Mojo::Loader', '0';
 requires 'Carp', '0';
 requires 'File::Find', '0';
