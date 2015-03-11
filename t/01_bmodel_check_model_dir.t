@@ -28,7 +28,7 @@ subtest "folder exists but is simple file" => sub {
 
     system( "touch $model_path" );
 
-    ok( -e $model_path, "$model_path is simple file" );
+    ok( -e $model_path && ! -d $model_path, "$model_path is simple file" );
     ok( ! $bmodel->check_model_dir( $model_path ), 'method return false' );
 
     system( "rm -f $model_path" ) if -e $model_path;
