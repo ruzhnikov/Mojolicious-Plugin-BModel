@@ -51,23 +51,13 @@
       },
       "test" : {
          "requires" : {
+            "FindBin" : "0",
             "Test::More" : "0.98"
          }
       }
    },
    "release_status" : "unstable",
-   "resources" : {
-      "bugtracker" : {
-         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel/issues"
-      },
-      "homepage" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel",
-      "repository" : {
-         "type" : "git",
-         "url" : "git://github.com/ruzhnikov/Mojolicious-Plugin-BModel.git",
-         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
-      }
-   },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_authority" : "cpan:BCDE",
    "x_contributors" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-BModel.svg?branch=master)](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-BModel)
+
 # NAME
 
 Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
@@ -11,12 +11,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     sub startup {
         my $self = shift;
 
-        $self->plugin( 'BModel',
-            {
-                use_base_model => 1,
-                create_dir     => 1,
-            }
-        );
+        $self->plugin( 'BModel', { create_dir => 1 } );
     }
 
     # in controller:
@@ -42,11 +37,6 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
 ## Options
-
-- **use\_base\_model**
-
-        A flag that specifies the use of the basic model.
-        0 - do not use, 1 - use. Enabled by default
 
 - **create\_dir**
 

@@ -2,6 +2,10 @@ Revision history for Perl extension Mojolicious-Plugin-BModel
 
 {{$NEXT}}
 
+0.05 2015-05-19T19:12:52Z
+
+    - removed the option 'use_base_model'
+
 0.04 2015-03-10T21:25:01Z
 
     - Added compatibility with mojo 6.0
