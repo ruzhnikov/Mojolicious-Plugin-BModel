@@ -9,4 +9,9 @@ has config => sub {
     return $self->app->config
 };
 
+has model => sub {
+    my $self = shift;
+    return $self->app->model;
+};
+
 1;

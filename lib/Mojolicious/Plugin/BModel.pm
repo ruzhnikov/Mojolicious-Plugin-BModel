@@ -9,12 +9,11 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.04';
+our $VERSION = '0.04_01';
 
-my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
 my $CREATE_DIR = 1;
-my $USE_BASE_MODEL = 1;
-my %MODULES = ();
+my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
+my %MODULES    = ();
 
 sub register {
     my ( $self, $app, $conf ) = @_;
@@ -23,10 +22,6 @@ sub register {
     my $path_to_model = $app->home->lib_dir . '/' . $app_name . '/' . $MODEL_DIR;
     my $dir_exists    = $self->check_model_dir( $path_to_model );
     my $create_dir    = $conf->{create_dir} || $CREATE_DIR;
-
-    if ( exists $conf->{use_base_model} && $conf->{use_base_model} == 0 ) {
-        $USE_BASE_MODEL = 0;
-    }
 
     if ( ! $dir_exists && ! $create_dir ) {
         warn "Directory $app_name/$MODEL_DIR does not exist";
@@ -64,6 +59,7 @@ sub load_models {
     my $model_path = "$app_name\::$MODEL_DIR";
     my @model_dirs = ( $model_path );
 
+    # find subdirs in dir of model
     find(
         sub {
             return if ! -d $File::Find::name || $File::Find::name eq $path_to_model;
@@ -75,24 +71,22 @@ sub load_models {
         ( $path_to_model )
     );
 
-    if ( $USE_BASE_MODEL ) {
-        my $base_model = 'Mojolicious::BModel::Base';
-        my $base_load_err = Mojo::Loader::load_class( $base_model );
-        croak "Loading base model $base_model failed: $base_load_err" if ref $base_load_err;
-        {
-            no strict 'refs';
-            *{ "$base_model\::app" } = sub { $app };
-            use strict 'refs';
-        }
+    my $base_model = 'Mojolicious::BModel::Base';
+    my $base_load_err = Mojo::Loader::load_class( $base_model );
+    croak "Loading base model $base_model failed: $base_load_err" if ref $base_load_err;
+    {
+        no strict 'refs';
+        *{ "$base_model\::app" } = sub { $app };
     }
 
+    # load modules from every dir and subdirs of model
     for my $dir ( @model_dirs ) {
         my @model_packages = Mojo::Loader::find_modules( $dir );
         for my $pm ( @model_packages ) {
             my $load_err = Mojo::Loader::load_class( $pm );
             croak "Loading '$pm' failed: $load_err" if ref $load_err;
             my ( $basename ) = $pm =~ /$model_path\::(.*)/;
-            $MODULES{ $basename } = $USE_BASE_MODEL ? $pm->new : $pm->new( app => $app );
+            $MODULES{ $basename } = $pm->new;
         }
     }
 
@@ -117,12 +111,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     sub startup {
         my $self = shift;
 
-        $self->plugin( 'BModel',
-            {
-                use_base_model => 1,
-                create_dir     => 1,
-            }
-        );
+        $self->plugin( 'BModel', { create_dir => 1 } );
     }
 
     # in controller:
@@ -150,11 +139,6 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 =head2 Options
 
 =over
-
-=item B<use_base_model>
-
-    A flag that specifies the use of the basic model.
-    0 - do not use, 1 - use. Enabled by default
 
 =item B<create_dir>
 
