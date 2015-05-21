@@ -26,6 +26,8 @@ subtest "folder exists and is folder" => sub {
 
 subtest "folder exists but is simple file" => sub {
 
+    plan 'skip_all' => 'Skipped for MS Windows' if $^O eq 'MSWin32';
+
     system( "touch $model_path" );
 
     ok( -e $model_path && ! -d $model_path, "$model_path is simple file" );
