@@ -2,6 +2,10 @@ Revision history for Perl extension Mojolicious-Plugin-BModel
 
 {{$NEXT}}
 
+0.06 2015-05-21T19:08:08Z
+
+    - skipped part of tests for MS Windows
+
 0.05 2015-05-19T19:12:52Z
 
     - removed the option 'use_base_model'
