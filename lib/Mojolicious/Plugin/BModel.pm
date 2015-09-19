@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 my $CREATE_DIR = 1;
 my $MODEL_DIR  = 'Model'; # directory of poject for the Model-modules
