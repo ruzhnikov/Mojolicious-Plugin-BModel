@@ -13,7 +13,7 @@ use_ok( 'Mojolicious::Plugin::BModel' );
 my $model_path = 'Model';
 my $bmodel = Mojolicious::Plugin::BModel->new;
 
-subtest "folder exists and is folder" => sub {
+subtest "folder of Model does exists and is folder" => sub {
 
     ok( $bmodel->can( 'check_model_dir' ), 'run one' );
 
@@ -24,7 +24,7 @@ subtest "folder exists and is folder" => sub {
     rmdir $model_path if -e $model_path;
 };
 
-subtest "folder exists but is simple file" => sub {
+subtest "folder of Model does exists but is simple file" => sub {
 
     plan 'skip_all' => 'Skipped for MS Windows' if $^O eq 'MSWin32';
 
@@ -36,7 +36,7 @@ subtest "folder exists but is simple file" => sub {
     system( "rm -f $model_path" ) if -e $model_path;
 };
 
-subtest "folder does not exists" => sub {
+subtest "folder of Model does not exists" => sub {
     ok( ! -e $model_path, 'file not exists' );
     ok( ! $bmodel->check_model_dir( $model_path ), 'method again return false' );
 };

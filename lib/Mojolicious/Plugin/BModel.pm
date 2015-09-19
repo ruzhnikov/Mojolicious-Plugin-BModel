@@ -12,8 +12,9 @@ use Mojo::Base 'Mojolicious::Plugin';
 our $VERSION = '0.06';
 
 my $CREATE_DIR = 1;
-my $MODEL_DIR  = 'Model'; # directory in poject for Model-modules
+my $MODEL_DIR  = 'Model'; # directory of poject for the Model-modules
 my %MODULES    = ();
+my $BASE_MODEL = 'Mojolicious::BModel::Base';
 
 sub register {
     my ( $self, $app, $conf ) = @_;
@@ -52,14 +53,12 @@ sub check_model_dir {
     return;
 }
 
-# recursive search and download modules with models
-sub load_models {
-    my ( $self, $path_to_model, $app_name, $app ) = @_;
+sub find_models {
+    my ( $self, $path_to_model, $model_path ) = @_;
 
-    my $model_path = "$app_name\::$MODEL_DIR";
     my @model_dirs = ( $model_path );
 
-    # find subdirs in dir of model
+    # find all subdirs in the directory of model
     find(
         sub {
             return if ! -d $File::Find::name || $File::Find::name eq $path_to_model;
@@ -71,15 +70,24 @@ sub load_models {
         ( $path_to_model )
     );
 
-    my $base_model = 'Mojolicious::BModel::Base';
-    my $base_load_err = Mojo::Loader::load_class( $base_model );
-    croak "Loading base model $base_model failed: $base_load_err" if ref $base_load_err;
+    return \@model_dirs;
+}
+
+# recursive search and download modules with models
+sub load_models {
+    my ( $self, $path_to_model, $app_name, $app ) = @_;
+
+    my $model_path = "$app_name\::$MODEL_DIR";
+    my @model_dirs = @{ $self->find_models( $path_to_model, $model_path ) };
+
+    my $base_load_err = Mojo::Loader::load_class( $BASE_MODEL );
+    croak "Loading base model $BASE_MODEL failed: $base_load_err" if ref $base_load_err;
     {
         no strict 'refs';
-        *{ "$base_model\::app" } = sub { $app };
+        *{ "$BASE_MODEL\::app" } = sub { $app };
     }
 
-    # load modules from every dir and subdirs of model
+    # load modules from every dirs and subdirs of model
     for my $dir ( @model_dirs ) {
         my @model_packages = Mojo::Loader::find_modules( $dir );
         for my $pm ( @model_packages ) {
