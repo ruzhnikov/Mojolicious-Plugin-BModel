@@ -12,7 +12,14 @@ use lib "$Bin/../lib";
 use File::Path qw/ rmtree /;
 use Mojo::Home;
 
-use Test::More tests => 3;
+use Test::More;
+
+if ( $^O eq 'MSWin32' ) {
+    plan skip_all => 'Skipped for MS Windows';
+}
+else {
+    plan tests => 3;
+}
 
 use_ok( 'Mojolicious::Plugin::BModel' );
 

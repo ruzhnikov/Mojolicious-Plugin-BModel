@@ -58,7 +58,7 @@
       }
    },
    "release_status" : "unstable",
-   "version" : "0.07",
+   "version" : "0.08",
    "x_authority" : "cpan:BCDE",
    "x_contributors" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"

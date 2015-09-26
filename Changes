@@ -2,6 +2,10 @@ Revision history for Perl extension Mojolicious-Plugin-BModel
 
 {{$NEXT}}
 
+0.08 2015-09-26T08:49:21Z
+
+    - skipped new tests in MS Windows
+
 0.07 2015-09-19T08:43:08Z
 
     - search modules of models has been modved into a separate method 'find_models'
