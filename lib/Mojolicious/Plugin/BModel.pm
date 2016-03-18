@@ -9,7 +9,7 @@ use File::Find qw/ find /;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 my $CREATE_DIR = 1;
 my $MODEL_DIR  = 'Model'; # directory of poject for the Model-modules
@@ -135,14 +135,16 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     sub get_conf_data {
         my ( $self, $field ) = @_;
-        
+
         # as example
         return $self->config->{field};
     }
 
 =head1 DESCRIPTION
 
-Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
+    This module provides you an ability to separate a business-logic from controllers into a 'model' class
+    and use this one by the method 'model' of a controller object.
+    This approach is using in the L<Catalyst framework|https://metacpan.org/pod/Catalyst>.
 
 =head2 Options
 
@@ -234,7 +236,7 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     }
 
     1;
-    
+
     # end of edit file
 
     % morbo -v script/my_app
@@ -245,7 +247,7 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
 =head1 LICENSE
 
-Copyright (C) 2015 Alexander Ruzhnikov.
+Copyright (C) 2016 Alexander Ruzhnikov.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

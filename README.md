@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-BModel.svg?branch=master)](https://travis-ci.org/ruzhnikov/Mojolicious-Plugin-BModel)
 # NAME
 
 Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
@@ -27,14 +27,16 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     sub get_conf_data {
         my ( $self, $field ) = @_;
-        
+
         # as example
         return $self->config->{field};
     }
 
 # DESCRIPTION
 
-Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
+    This module provides you an ability to separate a business-logic from controllers into a 'model' class
+    and use this one by the method 'model' of a controller object.
+    This approach is using in the L<Catalyst framework|https://metacpan.org/pod/Catalyst>.
 
 ## Options
 
@@ -120,7 +122,7 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
     }
 
     1;
-    
+
     # end of edit file
 
     % morbo -v script/my_app
@@ -130,7 +132,7 @@ Mojolicious::Plugin::BModel adds the ability to work with models in Catalyst
 
 # LICENSE
 
-Copyright (C) 2015 Alexander Ruzhnikov.
+Copyright (C) 2016 Alexander Ruzhnikov.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

@@ -4,7 +4,7 @@
       "Alexander Ruzhnikov."
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.133380",
+   "generated_by" : "Minilla/v3.0.1, CPAN::Meta::Converter version 2.133380",
    "license" : [
       "perl_5"
    ],
@@ -58,7 +58,18 @@
       }
    },
    "release_status" : "unstable",
-   "version" : "0.08",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel/issues"
+      },
+      "homepage" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/ruzhnikov/Mojolicious-Plugin-BModel.git",
+         "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
+      }
+   },
+   "version" : "0.09",
    "x_authority" : "cpan:BCDE",
    "x_contributors" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"
