@@ -3,36 +3,46 @@ package Mojolicious::Plugin::BModel;
 use 5.010;
 use strict;
 use warnings;
-use Carp qw/ croak /;
+use Carp qw/ carp croak /;
 use File::Find qw/ find /;
+use List::Util qw/ first /;
 
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
 our $VERSION = '0.09';
 
-my $CREATE_DIR = 1;
-my $MODEL_DIR  = 'Model'; # directory of poject for the Model-modules
+my $DEFAULT_CREATE_DIR = 1;
+my $DEFAULT_MODEL_DIR  = 'Model'; # directory of poject for the Model-modules
 my %MODULES    = ();
 my $BASE_MODEL = 'Mojolicious::BModel::Base';
 
 sub register {
     my ( $self, $app, $conf ) = @_;
 
-    my $app_name      = ref $app; # name of calling app
-    my $path_to_model = $app->home->lib_dir . '/' . $app_name . '/' . $MODEL_DIR;
-    my $dir_exists    = $self->check_model_dir( $path_to_model );
-    my $create_dir    = $conf->{create_dir} || $CREATE_DIR;
+    my $app_name  = ref $app; # name of calling app
 
-    if ( ! $dir_exists && ! $create_dir ) {
-        warn "Directory $app_name/$MODEL_DIR does not exist";
+    # namespace path to Models dir. By default it is name of application, but it can be redefine
+    # for example, namespace can be MyPath::ToModel
+    my $namespace = $conf->{namespace} ? $conf->{namespace} : $app_name;
+    if ( ! $self->_check_namespace( $namespace ) ) {
+        croak "Wrong format of namespace $namespace. Exit";
+    }
+
+    my $namespace_path = $self->_convert_namespace_to_path( $namespace );
+    my $path_to_model = $app->home->lib_dir . "/$namespace_path/$DEFAULT_MODEL_DIR";
+    my $dir_exists    = $self->_check_model_dir( $path_to_model );
+    my $to_create_dir = exists $conf->{create_dir} ? $conf->{create_dir} : $DEFAULT_CREATE_DIR;
+
+    if ( ! ( $dir_exists && $to_create_dir ) ) {
+        carp "Directory $namespace_path/$DEFAULT_MODEL_DIR does not exist";
         return 1;
     }
-    elsif ( ! $dir_exists && $create_dir ) {
-        mkdir $path_to_model or croak "Could not create directory $path_to_model : $!";
+    elsif ( ! $dir_exists && $to_create_dir ) {
+        mkdir $path_to_model || croak "Could not create directory $path_to_model : $!";
     }
 
-    $self->load_models( $path_to_model, $app_name, $app );
+    $self->load_models( $path_to_model, $namespace, $app );
 
     $app->helper(
         model => sub {
@@ -46,11 +56,47 @@ sub register {
     return 1;
 }
 
-sub check_model_dir {
+sub _check_model_dir {
     my ( $self, $path_to_model ) = @_;
 
     return 1 if -e $path_to_model && -d $path_to_model;
     return;
+}
+
+sub _check_namespace {
+    my ( $self, $namespace ) = @_;
+
+    my @splitted_namespace = $self->_separate_namespace_name( $namespace );
+    return if ! scalar @splitted_namespace;
+
+    my $found_wrong_name = first { $_ !~ m/[a-zA-Z0-9]/ } @splitted_namespace;
+    return if $found_wrong_name;
+}
+
+sub _convert_namespace_to_path {
+    my ( $self, $namespace ) = @_;
+
+    my @splitted_namespace = $self->_separate_namespace_name( $namespace );
+    my $path;
+
+    if (  scalar @splitted_namespace == 1 ) { # we only one name
+        $path = $splitted_namespace[0];
+    }
+    else {
+        for my $i ( 0 .. $#splitted_namespace ) {
+            $path = ( $i == 0 ) ? $splitted_namespace[ $i ] : '/' . $splitted_namespace[ $i ];
+        }
+    }
+
+    return $path;
+}
+
+sub _separate_namespace_name {
+    my ( $self, $namespace ) = @_;
+
+    my @splitted_name = split( /\:\:/, $namespace );
+
+    return @splitted_name;
 }
 
 sub find_models {
@@ -75,9 +121,9 @@ sub find_models {
 
 # recursive search and download modules with models
 sub load_models {
-    my ( $self, $path_to_model, $app_name, $app ) = @_;
+    my ( $self, $path_to_model, $namespace, $app ) = @_;
 
-    my $model_path = "$app_name\::$MODEL_DIR";
+    my $model_path = $namespace . '::' . $DEFAULT_MODEL_DIR;
     my @model_dirs = @{ $self->find_models( $path_to_model, $model_path ) };
 
     my $base_load_err = Mojo::Loader::load_class( $BASE_MODEL );
