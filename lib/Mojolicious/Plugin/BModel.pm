@@ -179,6 +179,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     # Mojolicious
 
+    ```perl
     # in your app:
     sub startup {
         my $self = shift;
@@ -203,6 +204,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
         # as example
         return $self->config->{field};
     }
+    ```
 
 =head1 DESCRIPTION
 
@@ -227,8 +229,9 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     A place in the '/lib' folder of application where there are your model classes. By default it is the name of application.
     The value of this parameter should be in the format with a delimiter '::', for example 'Aaaaa::Bbbb::Cccc'.
-    This string(in format 'Aaaaa::Bbbb::Cccc') will be converted to the path 'Aaaaa/Bbbb/Cccc'(or 'Aaaaa\Bbbb\Cccc' for Microsoft Windows) and
-    the absolute path to the your Model dir will looks like '<your app>/lib/Aaaaa/Bbbb/Cccc/Model' and all Model classes will be sought in this direcory.
+    This string(in format 'Aaaaa::Bbbb::Cccc') will be converted to the path 'Aaaaa/Bbbb/Cccc'(or 'Aaaaa\Bbbb\Cccc'
+    for Microsoft Windows) and the absolute path to the your Model dir will looks like '<your app>/lib/Aaaaa/Bbbb/Cccc/Model'
+    and all Model classes will be sought in this direcory.
 
 =back
 
@@ -243,6 +246,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     % vim lib/MyApp.pm
 
     # edit file:
+    ```perl
     package MyApp;
 
     use Mojo::Base 'Mojolicious';
@@ -259,6 +263,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     }
 
     1;
+    ```
 
     # end of edit file
 
@@ -269,6 +274,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     # edit file
 
+    ```perl
     package MyApp::Controller::Root;
 
     use Mojo::Base 'Mojolicious::Controller';
@@ -281,6 +287,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     }
 
     1;
+    ```
 
     # end of edit file
 
@@ -296,6 +303,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     # edit file
 
+    ```perl
     package MyApp::Model::MyModel;
 
     use strict;
@@ -310,6 +318,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     }
 
     1;
+    ```
 
     # end of edit file
 
