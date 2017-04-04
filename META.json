@@ -1,10 +1,10 @@
 {
    "abstract" : "Catalyst-like models in Mojolicious",
    "author" : [
-      "Alexander Ruzhnikov."
+      "-2017 Alexander Ruzhnikov."
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.0.1, CPAN::Meta::Converter version 2.133380",
+   "generated_by" : "Minilla/v3.0.10, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -44,6 +44,8 @@
          "requires" : {
             "Carp" : "0",
             "File::Find" : "0",
+            "File::Spec" : "0",
+            "List::Util" : "0",
             "Mojo::Loader" : "0",
             "Mojolicious" : "6.0",
             "perl" : "5.010"
@@ -53,6 +55,7 @@
          "requires" : {
             "File::Path" : "0",
             "FindBin" : "0",
+            "List::Util" : "0",
             "Test::More" : "0.98"
          }
       }
@@ -69,9 +72,10 @@
          "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
       }
    },
-   "version" : "0.09",
+   "version" : "0.09_1",
    "x_authority" : "cpan:BCDE",
    "x_contributors" : [
       "Alexander Ruzhnikov <ruzhnikov85@gmail.com>"
-   ]
+   ],
+   "x_serialization_backend" : "JSON::PP version 2.27400"
 }

@@ -4,6 +4,7 @@ requires 'Mojo::Loader', '0';
 requires 'Carp', '0';
 requires 'File::Find', '0';
 requires 'List::Util', '0';
+requires 'File::Spec', '0';
 
 on 'test' => sub {
     requires 'Test::More', '0.98';

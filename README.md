@@ -11,7 +11,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     sub startup {
         my $self = shift;
 
-        $self->plugin( 'BModel', { create_dir => 1 } );
+        $self->plugin( 'BModel', { %Options } );
     }
 
     # in controller:
@@ -21,7 +21,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
         my $config_data = $self->model('MyModel')->get_conf_data('field');
     }
 
-    # in <your_app>/lib/Model/MyModel.pm:
+    # in <your_app>/lib/<namespace>/Model/MyModel.pm:
 
     use Mojo::Base 'Mojolicious::BModel::Base';
 
@@ -38,12 +38,23 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
     and use this one by the method 'model' of a controller object.
     This approach is using in the L<Catalyst framework|https://metacpan.org/pod/Catalyst>.
 
+    All model classes have to be inherited from the class 'Mojolicious::BModel::Base', examples see below.
+
+    This module works in Unix-like and Windows systems.
+
 ## Options
 
 - **create\_dir**
 
-        A flag that determines automatically create the folder '<yourapp>/lib/Model'
+        A boolean flag that determines automatically create the folder '<yourapp>/lib/<namespace>/Model'
         if it does not exist. 0 - do not create, 1 - create. Enabled by default
+
+- **namespace**
+
+        A place in the '/lib' folder of application where there are your model classes. By default it is the name of application.
+        The value of this parameter should be in the format with a delimiter '::', for example 'Aaaaa::Bbbb::Cccc'.
+        This string(in format 'Aaaaa::Bbbb::Cccc') will be converted to the path 'Aaaaa/Bbbb/Cccc'(or 'Aaaaa\Bbbb\Cccc' for Microsoft Windows) and
+        the absolute path to the your Model dir will looks like '<your app>/lib/Aaaaa/Bbbb/Cccc/Model' and all Model classes will be sought in this direcory.
 
 # EXAMPLE
 
@@ -95,12 +106,11 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
     # end of edit file
 
-    # When you connect, the plugin will check if the folder "lib/Model".
-    # If the folder does not exist, create it.
-    # If the 'use_base_model' is set to true will be loaded
-    # module "Mojolicious::BModel::Base" with the base model.
-    # Method 'app' base model will contain a link to your application.
-    # Method 'config' base model will contain a link to config of yor application.
+    # When you connect, the plugin will check the folder "lib/MyApp/Model" exists.
+    # By defaut the namespace 'MyApp' will be used.
+    # If the folder 'lib/MyApp/Model' does not exist, this will be created.
+    # The method 'app' of base model contains a link to your application.
+    # The method 'config' of base model contains a link to config of yor application.
 
     # create a new model
     % touch lib/MyApp/Model/MyModel.pm
@@ -132,7 +142,7 @@ Mojolicious::Plugin::BModel - Catalyst-like models in Mojolicious
 
 # LICENSE
 
-Copyright (C) 2016 Alexander Ruzhnikov.
+Copyright (C) 2015-2017 Alexander Ruzhnikov.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
