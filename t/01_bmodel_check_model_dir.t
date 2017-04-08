@@ -6,37 +6,42 @@ use warnings;
 use FindBin qw/ $Bin /;
 use lib "$Bin/../lib";
 
-use Test::More tests => 4;
+use Test::More;
 
 use_ok( 'Mojolicious::Plugin::BModel' );
 
 my $model_path = 'Model';
 my $bmodel = Mojolicious::Plugin::BModel->new;
 
-subtest "folder of Model does exists and is folder" => sub {
+require 'utils.pl';
 
-    ok( $bmodel->can( '_check_model_dir' ), 'run one' );
+subtest "folder of Model exists and it is folder" => sub {
 
-    mkdir $model_path or die "can't create folder $model_path: $!";
+    ok( $bmodel->can( '_check_model_dir' ), 'we can call this method' );
 
-    ok( $bmodel->_check_model_dir( $model_path ), 'run two' );
+    make_dir( $model_path );
+    ok( $bmodel->_check_model_dir( $model_path ), 'folder exists' );
 
-    rmdir $model_path if -e $model_path;
+    remove_dir( $model_path )
 };
 
-subtest "folder of Model does exists but is simple file" => sub {
+subtest "folder of Model exists but it is a simple file" => sub {
+    SKIP: {
+        skip "Skip for Windows" if $^O eq 'Win32';
 
-    system( "touch $model_path" );
+        system( "touch $model_path" );
 
-    ok( -e $model_path && ! -d $model_path, "$model_path is simple file" );
-    ok( ! $bmodel->_check_model_dir( $model_path ), 'method return false' );
+        ok( -e $model_path && ! -d $model_path, "$model_path is a simple file" );
+        ok( ! $bmodel->_check_model_dir( $model_path ), 'method returned false' );
 
-    system( "rm -f $model_path" ) if -e $model_path;
+        system( "rm -f $model_path" ) if -e $model_path;
+    }
 };
 
-subtest "folder of Model does not exists" => sub {
+subtest "folder of Model does not exist" => sub {
+    remove_dir( $model_path );
     ok( ! -e $model_path, 'file does not exist' );
-    ok( ! $bmodel->_check_model_dir( $model_path ), 'method again return false' );
+    ok( ! $bmodel->_check_model_dir( $model_path ), 'method again returned false' );
 };
 
 done_testing();
