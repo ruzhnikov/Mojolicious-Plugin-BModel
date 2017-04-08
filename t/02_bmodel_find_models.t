@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use FindBin qw/ $Bin /;
-use lib "$Bin/../lib";
+use lib ( "$Bin", "$Bin/../lib" );
 
 use List::Util qw/ first /;
 use File::Spec;
