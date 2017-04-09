@@ -26,16 +26,16 @@ subtest "folder of Model exists and it is folder" => sub {
 };
 
 subtest "folder of Model exists but it is a simple file" => sub {
-    SKIP: {
-        skip "Skip for Windows" if $^O eq 'Win32';
 
-        system( "touch $model_path" );
+    # do that for portability
+    open ( FH, '>', $model_path ) or die "$!";
+    print FH "\r\n";
+    close FH;
 
-        ok( -e $model_path && ! -d $model_path, "$model_path is a simple file" );
-        ok( ! $bmodel->_check_model_dir( $model_path ), 'method returned false' );
+    ok( -e $model_path && ! -d $model_path, "$model_path is a simple file" );
+    ok( ! $bmodel->_check_model_dir( $model_path ), 'method returned false' );
 
-        system( "rm -f $model_path" ) if -e $model_path;
-    }
+    unlink $model_path;
 };
 
 subtest "folder of Model does not exist" => sub {
