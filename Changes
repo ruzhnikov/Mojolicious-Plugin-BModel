@@ -2,6 +2,10 @@ Revision history for Perl extension Mojolicious-Plugin-BModel
 
 {{$NEXT}}
 
+0.1 2024-09-16T19:28:53Z
+
+    - bumped version, no code change
+
 0.010 2024-09-16T17:45:03Z
 
     - a small improvement of description

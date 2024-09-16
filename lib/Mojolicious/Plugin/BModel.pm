@@ -11,7 +11,7 @@ use File::Spec;
 use Mojo::Loader;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.010';
+our $VERSION = '0.1';
 
 my $DEFAULT_CREATE_DIR = 1;
 my $DEFAULT_MODEL_DIR  = 'Model'; # directory of poject for the Model-modules

@@ -72,7 +72,7 @@
          "web" : "https://github.com/ruzhnikov/Mojolicious-Plugin-BModel"
       }
    },
-   "version" : "0.010",
+   "version" : "0.1",
    "x_authority" : "cpan:BCDE",
    "x_serialization_backend" : "JSON::PP version 4.16",
    "x_static_install" : 1

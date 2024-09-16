@@ -2,7 +2,7 @@ package Mojolicious::BModel::Base;
 
 use Mojo::Base -base;
 
-our $VERSION = '0.010';
+our $VERSION = '0.1';
 
 has config => sub {
     my $self = shift;
